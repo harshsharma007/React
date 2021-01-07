@@ -33,6 +33,43 @@ class App extends Component {
     ]
   }
 
+  /*
+    Convention to give name to the event handler method like following:
+    swtichNameHandler
+
+    switchName depends up to you but you typically use handler here to indicate that this is a method
+    you're not actively calling but you're assigning as an event handler. It's not required to follow
+    this pattern, you can name this whatever you want but it is a good practice to name it like this.
+
+    It is a property which holds a function which can be executed. It can be used as an arrow function.
+    While calling this event handler on the onClick event of a button don't add parentheses. This would
+    execute it immediately once react renders this to the DOM because you execute this function with
+    the parentheses. We only need to pass a reference and we do this by using this and then referring
+    to that property which holds a function.
+  */
+
+  switchNameHandler = () => {
+
+    /*
+      Important: If you don't use the arrow function here bascially where you assign a function to a 
+      property, you will run into errors if you try to use "this" in the switchNameHandler function
+      because this will then not refer to the class at the runtime.
+
+      By using this ES6 syntax, we circumvent this problem which will become important later.
+
+      The below syntax will only work in arrow function, otherwise this here will not refer to the class
+      and will therefore not be able to reach that state property.
+    */
+
+    // DON'T DO THIS: this.state.persons[0].name = 'Maximilian'
+
+    /*
+      If we use the above code, we will get a warning -> "Do not mutate state directly. Use setState()".
+      It means changing the state like this will not be recognized by React and will not pick up this 
+      change.
+    */
+  }
+
   render() {
     return (
       <div className="App">
@@ -46,7 +83,7 @@ class App extends Component {
           dynamic and configurable, it would be nice if we can pass some attributes.
         */}
 
-        <button>Switch Name</button>
+        <button onClick={this.switchNameHandler}>Switch Name</button>
         <CustomPerson name={this.state.persons[0].name} age={this.state.persons[0].age} />
         <CustomPerson name={this.state.persons[1].name} age={this.state.persons[1].age} >My Hobbies: Racing</CustomPerson>
         <CustomPerson name={this.state.persons[2].name} age={this.state.persons[1].age} />
