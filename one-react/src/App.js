@@ -30,7 +30,8 @@ class App extends Component {
       { name: 'Max', age: 28 },
       { name: 'Manu', age: 29 },
       { name: 'Stephanie', age: 26 }
-    ]
+    ],
+    otherState: 'Some other value'
   }
 
   /*
@@ -66,7 +67,32 @@ class App extends Component {
     /*
       If we use the above code, we will get a warning -> "Do not mutate state directly. Use setState()".
       It means changing the state like this will not be recognized by React and will not pick up this 
-      change.
+      change. Instead use a special method React gives you.
+    */
+
+    this.setState({
+      persons: [
+        { name: 'Maximilian', age: 28 },
+        { name: 'Manu', age: 29 },
+        { name: 'Stephanie', age: 27 }
+      ]
+    })
+
+    /*
+      setState method allows us to update this special state property here and it will then ensure that
+      React gets to know about this update and updates the DOM. setState takes an object as an argument
+      and it will merge whatever we define here with our existing state.
+
+      Functionality: Now React will look at our state and see which part of it we're overwriting, we're
+      changing (persons). It will not discard other state but it will simply merge the old state with
+      the new one. It will overwrite "persons" since we clearly defined a new version of "persons" but
+      will leave other state untouched because we're not saying anything about it here and it will not
+      discard it (which is a good thing  because you don't have to update everything about your state
+      whenever you want to change only a tiny piece about it).
+
+      If state changes or props changes, it analyzes the code it already rendered to the DOM and the code 
+      it would now render, if it were to re-render everything and then it updates the existing DOM in all 
+      the places where it needs to update it to reflect your new state and props.
     */
   }
 
@@ -86,7 +112,7 @@ class App extends Component {
         <button onClick={this.switchNameHandler}>Switch Name</button>
         <CustomPerson name={this.state.persons[0].name} age={this.state.persons[0].age} />
         <CustomPerson name={this.state.persons[1].name} age={this.state.persons[1].age} >My Hobbies: Racing</CustomPerson>
-        <CustomPerson name={this.state.persons[2].name} age={this.state.persons[1].age} />
+        <CustomPerson name={this.state.persons[2].name} age={this.state.persons[2].age} />
       </div>
     );
   }
