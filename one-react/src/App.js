@@ -23,6 +23,8 @@ class App extends Component {
     State is a special property. State can be changed and if it changes and that’s the special thing 
     about it and it only works on that state property, if it changes it will lead React to re-render our 
     DOM or to update the DOM.
+
+    This is the well established way and also the default way of creating components in React.
   */
 
   state = {
