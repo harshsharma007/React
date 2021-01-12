@@ -8,7 +8,7 @@ import React from 'react'
 const customPerson = (props) => {
     return (
         <div>
-            <p>I'm {props.name} and I am {props.age} years old!</p>
+            <p onClick={props.click}>I'm {props.name} and I am {props.age} years old!</p>
 
             {/*
                 To fetch "My Hobbies: Racing" section we need to write the below code. "children" is the
@@ -32,7 +32,7 @@ const customPerson = (props) => {
                 only by passing props but if you want to pass some structured html content also by placing
                 it between the opening and closing tag and accessing it with props.children.
             */}
-            
+
             <p>{props.children}</p>
         </div>
     )

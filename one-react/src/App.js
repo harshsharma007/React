@@ -38,7 +38,7 @@ class App extends Component {
 
   /*
     Convention to give name to the event handler method like following:
-    swtichNameHandler
+    switchNameHandler
 
     switchName depends up to you but you typically use handler here to indicate that this is a method
     you're not actively calling but you're assigning as an event handler. It's not required to follow
@@ -113,7 +113,26 @@ class App extends Component {
 
         <button onClick={this.switchNameHandler}>Switch Name</button>
         <CustomPerson name={this.state.persons[0].name} age={this.state.persons[0].age} />
-        <CustomPerson name={this.state.persons[1].name} age={this.state.persons[1].age} >My Hobbies: Racing</CustomPerson>
+
+        {/*
+          Passing Method References between Components
+
+          If we want to call a method (switchNameHandler) not only on the click of button but also
+          on the click of a paragraph (p tag) inside a CustomPerson component, we could add onClick
+          on p tag of the CustomPerson component. But we can't call that handler method in a different
+          file. We can actually pass a reference to this handler as a property to our component.
+
+          We can add a new property which we can name anything (name is totally up to you). Then we
+          can pass a reference to this.switchNameHandler. And in CustomPerson we can simply call
+          this reference using props.click
+
+          This is important to understand, you can pass methods also as props so that you can call a
+          method which might change the state in another component which doesn't have direct access to
+          the state and which shouldn't have direct access to the state.
+        */}
+
+        <CustomPerson name={this.state.persons[1].name} age={this.state.persons[1].age} click={this.switchNameHandler}>
+          My Hobbies: Racing</CustomPerson>
         <CustomPerson name={this.state.persons[2].name} age={this.state.persons[2].age} />
       </div>
     );
