@@ -51,7 +51,7 @@ class App extends Component {
     to that property which holds a function.
   */
 
-  switchNameHandler = () => {
+  switchNameHandler = (newName) => {
 
     /*
       Important: If you don't use the arrow function here bascially where you assign a function to a 
@@ -74,7 +74,7 @@ class App extends Component {
 
     this.setState({
       persons: [
-        { name: 'Maximilian', age: 28 },
+        { name: newName, age: 28 },
         { name: 'Manu', age: 29 },
         { name: 'Stephanie', age: 27 }
       ]
@@ -111,7 +111,7 @@ class App extends Component {
           dynamic and configurable, it would be nice if we can pass some attributes.
         */}
 
-        <button onClick={this.switchNameHandler}>Switch Name</button>
+        <button onClick={this.switchNameHandler.bind(this, 'Maximilian')}>Switch Name</button>
         <CustomPerson name={this.state.persons[0].name} age={this.state.persons[0].age} />
 
         {/*
@@ -129,9 +129,40 @@ class App extends Component {
           This is important to understand, you can pass methods also as props so that you can call a
           method which might change the state in another component which doesn't have direct access to
           the state and which shouldn't have direct access to the state.
+
+          It's important to know, you can pass down click handlers which allow you to change data in the
+          parent component (in the app component in this case for the person component). If we also
+          want to pass a value to our function, then switchNameHandler should receive the newName.
+
+          How do we pass that data?
+          There are two ways of doing that:
+          1. The first is that you call bind and then simply bind this. "this" controls what this inside
+             the function (switchNameHander) will refer to and by binding it to this here outside of the
+             function we're binding it to the class might look strange but is a typical way of handling
+             the this issue in JavaScript, we wouldn't have need to do that though. But we can use this
+             syntax because I also want to pass the second argument to bind. this now is the list of
+             arguments which will be passed into our function and here this should be the newName. To see
+             the difference, let's copy that bind code and let's also bind it down here when we pass the
+             function as a reference to the click prop.
+          
+          2. Other way is to execute an arrow function which takes no arguments (theoretically it would
+            receive an event object) on the onClick event. Then simply as a function body returns this
+            function call.
+            Concept:
+            When using an arrow function this implicitly adds a return keyword in front of the code which
+            comes directly after the arrow if it's all written in one line. The alternative is to wrap
+            this in curly braces and write a normal function body.
+            This would return a function call that's why I added parentheses. Here it is not getting
+            executed immediately. Instead what we pass here is an anonymous function which will be
+            executed on a click and which then returns the result of this function getting executed.
+            We can easily pass our data in the parentheses.
+
+            Second way is not recommended because it can be inefficient. Instead, use the bind function 
+            to pass any argument to the function.
         */}
 
-        <CustomPerson name={this.state.persons[1].name} age={this.state.persons[1].age} click={this.switchNameHandler}>
+        <CustomPerson name={this.state.persons[1].name} age={this.state.persons[1].age}
+          click={() => this.switchNameHandler('Max!!')}>
           My Hobbies: Racing</CustomPerson>
         <CustomPerson name={this.state.persons[2].name} age={this.state.persons[2].age} />
       </div>
