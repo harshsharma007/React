@@ -98,7 +98,55 @@ class App extends Component {
     */
   }
 
+  nameChangedHandler = (event) => {
+    /*
+      Adding Two Way Binding
+      We expect to get an event object here. For JavaScript events, they probably has a target. The target
+      doesn't make for a good name value though but the target should be the input into which we typed,
+      so it should actually also have a value property which is the value the user entered and therefore
+      this now makes for a good updated value for name.
+
+      So event target value is what I want to assign as a new name for Manu, again for time being no
+      matter in which input of which component I typed. Now I need to pass this to a component to be
+      able to access it from there.
+
+      The event object will be passed to it automatically by React, like a normal JavaScript where you
+      always by default get access to the event object.
+
+      To see the current value of the name in the input right from the start. We basically want to set
+      up two way binding, when we change it we want to propagate that change so that we can update the
+      state but we also want to see the current state right from the start. To do this, I can set value
+      equal to props.name
+
+      Important: When we run the code and see the console output, there we will see a warning:
+      "You provided a `value` prop to a form field without an `onChange` handler. This will render a 
+      read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either 
+      `onChange` or `readOnly`"
+
+      This warning comes because if you provide a value prop without onChange handler here, you actually
+      ran into problems because you're binding the value to a property without allowing yourself React
+      to changes hence you would lock your input down. If you remove onChange, you will see if you type
+      there nothing happens I can't type because we're not handling changes so we always override
+      whatever we try to type with the existing name prop.
+    */
+    this.setState({
+      persons: [
+        { name: 'Max', age: 28 },
+        { name: event.target.value, age: 29 },
+        { name: 'Stephanie', age: 26 }
+      ]
+    })
+  }
+
   render() {
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer'
+    }
+
     return (
       <div className="App">
         <h1>Hi, I'm a React App</h1>
@@ -111,7 +159,7 @@ class App extends Component {
           dynamic and configurable, it would be nice if we can pass some attributes.
         */}
 
-        <button onClick={this.switchNameHandler.bind(this, 'Maximilian')}>Switch Name</button>
+        <button style={style} onClick={this.switchNameHandler.bind(this, 'Maximilian')}>Switch Name</button>
         <CustomPerson name={this.state.persons[0].name} age={this.state.persons[0].age} />
 
         {/*
@@ -162,7 +210,8 @@ class App extends Component {
         */}
 
         <CustomPerson name={this.state.persons[1].name} age={this.state.persons[1].age}
-          click={() => this.switchNameHandler('Max!!')}>
+          click={() => this.switchNameHandler('Max!!')}
+          changed={this.nameChangedHandler}>
           My Hobbies: Racing</CustomPerson>
         <CustomPerson name={this.state.persons[2].name} age={this.state.persons[2].age} />
       </div>
