@@ -10,17 +10,8 @@ class App extends Component {
       { name: 'Manu', age: 29 },
       { name: 'Stephanie', age: 26 }
     ],
-    otherState: 'Some other value'
-  }
-
-  switchNameHandler = (newName) => {
-    this.setState({
-      persons: [
-        { name: newName, age: 28 },
-        { name: 'Manu', age: 29 },
-        { name: 'Stephanie', age: 27 }
-      ]
-    })
+    otherState: 'Some other value',
+    showPersons: false
   }
 
   nameChangedHandler = (event) => {
@@ -31,6 +22,23 @@ class App extends Component {
         { name: 'Stephanie', age: 26 }
       ]
     })
+  }
+
+  /*
+    To create a handler method, we can have two ways:
+    1. Normal functions
+    2. Arrow functions
+
+    1. Normal functions:
+    togglePersonsHandler() {
+
+    }
+    Using normal function we will have problems, if we want to use this keyword and since we will call
+    this method here upon event fired in the DOM, this would lead to real problems.
+  */
+
+  togglePersonsHandler = () => {
+
   }
 
   render() {
@@ -46,16 +54,14 @@ class App extends Component {
       <div className="App">
         <h1>Hi, I'm a React App</h1>
         <p>This is really working!</p>
-        <Person />
-
         <button style={style} onClick={this.switchNameHandler.bind(this, 'Maximilian')}>Switch Name</button>
-        <CustomPerson name={this.state.persons[0].name} age={this.state.persons[0].age} />
-
-        <CustomPerson name={this.state.persons[1].name} age={this.state.persons[1].age}
-          click={() => this.switchNameHandler('Max!!')}
-          changed={this.nameChangedHandler}>
-          My Hobbies: Racing</CustomPerson>
-        <CustomPerson name={this.state.persons[2].name} age={this.state.persons[2].age} />
+        <div>
+          <CustomPerson name={this.state.persons[0].name} age={this.state.persons[0].age} />
+          <CustomPerson name={this.state.persons[1].name} age={this.state.persons[1].age}
+            click={this.togglePersonsHandler} changed={this.nameChangedHandler}>
+            My Hobbies: Racing</CustomPerson>
+          <CustomPerson name={this.state.persons[2].name} age={this.state.persons[2].age} />
+        </div>
       </div>
     );
   }
