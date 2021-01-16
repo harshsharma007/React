@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import customPerson from './Person/CustomPerson';
 import CustomPerson from './Person/CustomPerson'
 
 class App extends Component {
@@ -56,6 +57,51 @@ class App extends Component {
       padding: '8px',
       cursor: 'pointer'
     }
+    /*
+      Handling Dynamic Content "The JavaScript Way"
+      Important: When React renders something to the screen, when it decides that it needs to update
+      the screen, it executes render method, not just the return expression. Everything inside the
+      render method gets executed whenever react re-renders this component and therefore we can take
+      advantage of this. We can add some code here before we return something.
+
+      With this, we keep the JSX we return and the core template we are using keep it clean. We make
+      sure that we only have this tiny reference in the return JSX code. This is the preferred way of
+      outputting conditional content.
+    */
+
+    let persons = null
+    if (this.state.showPersons) {
+      persons = (
+        <div>
+          {/*
+            Outputting Lists
+            We have a couple of persons here in our state and this should be our single source of truth. 
+            This should be our data source in bigger applications, in real applications, this might be 
+            populated from data or with data you fetch from a server.
+
+            For this, we would use single curly braces to render something dynamic within our JSX code. 
+            We want to render our persons array in the state. We need to convert this array of JavaScript 
+            which is not valid JSX to valid JSX. JavaScript offers us a function to convert arrays, it's 
+            a map function. Map simply maps every element in a given array such as our persons array here 
+            into something else.
+
+            It does this by executing a method on every element in a given array. In the persons array,
+            JavaScript automatically gives us each element as an input to that function, which we execute
+            on every element. So in this case it's our person. Now we need to return something. We should
+            return what you want to map this item into. We have an array of JavaScript objects and
+            persons. We want to convert this into something else. The map method which we are using here
+            conveniently simply returns a new array. Our goal simply is to return JSX here so that every
+            element of the person's array get mapped into a JSX representative of it.
+          */}
+
+          {
+            this.state.persons.map(person => {
+              return <CustomPerson name={person.name} age={person.age} />
+            })
+          }
+        </div>
+      )
+    }
 
     return (
       <div className="App">
@@ -84,6 +130,7 @@ class App extends Component {
                 changed={this.nameChangedHandler}>
                 My Hobbies: Racing</CustomPerson>
               <CustomPerson name={this.state.persons[2].name} age={this.state.persons[2].age} />
+              {persons}
             </div>
             : null
         }
