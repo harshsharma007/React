@@ -13,14 +13,22 @@ class App extends Component {
     showPersons: false
   }
 
-  nameChangedHandler = (event) => {
-    this.setState({
-      persons: [
-        { name: 'Max', age: 28 },
-        { name: event.target.value, age: 29 },
-        { name: 'Stephanie', age: 26 }
-      ]
+  nameChangedHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id
     })
+
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+
+    //const personAlternate = Object.assign({}, this.state.persons[personIndex])
+    person.name = event.target.value
+    
+    const persons = [...this.state.persons]
+    persons[personIndex] = person
+    
+    this.setState({ persons: persons })
   }
 
   /*
@@ -142,12 +150,54 @@ class App extends Component {
             elements so that it has a clear property it can compare between the different elements to
             find out which elements changed and which didn't. So that it only re-renders the elements
             which did change and not the whole list.
+
+            Flexible Lists
+            To add an onChange event to the textbox we need to add pass props to the event listener,
+            which correctly updates the state. We can provide changed and call nameChangedHandler. In
+            nameChangedHandler we need two pieces of information. I need to get the events, to get access
+            to the event target value, to what the user entered. But, I also expect a second input.
+            I want to get the ID of the user to udpate or the index in the array. Since we have IDs in
+            the array, we can use it.
+
+            Therefore, I will use this function syntax to conveniently pass that data. The overall
+            function is the one which gets executed upon the onChange event. Here is where we get the
+            event object just as we before got it when we didn't assign any function at all directly
+            in the nameChangedHandler, now we get it here because this is now the first function which
+            gets executed, this anonymous function we define here.
+
+            I can then pass it on to the nameChangeHandler and I also want to pass person ID to it. The
+            person ID of course is available since we're inside the map method here. So we got access to
+            the person and hence to the ID. With that we can now use that information in the
+            nameChangedHandler. We want to update the state, but only for the person into which input
+            field we typed. We need to find that person and we can do this by reaching out to the state,
+            to the persons there and by calling find. find is a default JavaScript method which gives
+            us the person.
+
+            We can also use "findIndex" to find the element in an array and then get the index of that
+            element, but we want to take advantage of the ID. findIndex takes a function as an input
+            just as map did and just as a map, it will execute this function on every element in the
+            array. So here I will execute a function where I get the person as an input and then I get
+            the function body. In the function body, check if this is the element I was looking for or
+            not.
+
+            Then simply get the person itself by reaching out to these state persons and accessing the
+            element at the personIndex. JavaScript objects are reference types so we shouldn't mutate
+            them directly because we only get a pointer when we reach out to person and hence we would
+            mutate the original object to which this pointer points. So the better approach is to create
+            a new JavaScript object and then use the spread operator.
+
+            Just like with the arrays it's also available for objects and it will distribute all the
+            properties of the object we fetch into this new object we're creating. An alternative
+            approach is to use (not recommended) object.Assign a default JavaScript function where we
+            pass an empty object as the first argument and then the object which properties you want
+            to assign into it as the second argument.
           */}
 
           {
             this.state.persons.map((person, index) => {
               return <CustomPerson click={() => this.deletePersonHandler(index)}
-                name={person.name} age={person.age} key={person.id} />
+                name={person.name} age={person.age} key={person.id}
+                changed={(event) => this.nameChangedHandler(event, person.id)} />
             })
           }
         </div>
