@@ -21,7 +21,8 @@ class App extends Component {
     const text = this.state.text.split('')
     text.splice(index, 1)
     const updatedText = text.join('')
-    this.setState({ text: updatedText })
+    const updatedLength = this.state.textLength - 1
+    this.setState({ text: updatedText, textLength: updatedLength })
   }
 
   render() {
