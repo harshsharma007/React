@@ -20,7 +20,7 @@ import CustomPerson from './Person/CustomPerson';
   and give access to the conflict files so that you can tweak how your code is bundled together and
   so on and there is something we will need to tweak there.
 
-  npm run inject
+  npm run eject
   is the command you need to run on the terminal of VS Code.
 */
 
