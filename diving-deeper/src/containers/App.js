@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import classes from './App.css';
-import CustomPerson from './Person/CustomPerson';
+import Persons from '../components/Persons/Persons';
+import CockPit from '../components/Cockpit/Cockpit';
+
+/*
+  Module Introduction
+  It's the time to dive deeper into components, after all components are the core building block and
+  THE feature of the react library. So we definitely have to make sure that we know how they work,
+  what happens behind the scenes and what we can do with them.
+*/
 
 class App extends Component {
   state = {
@@ -41,46 +49,15 @@ class App extends Component {
 
   render() {
     let persons = null
-    let btnClass = ''
 
     if (this.state.showPersons) {
-      persons = (
-        <div>
-          {
-            this.state.persons.map((person, index) => {
-              return <CustomPerson click={() => this.deletePersonHandler(index)}
-                name={person.name} age={person.age} key={person.id}
-                changed={(event) => this.nameChangedHandler(event, person.id)} />
-            })
-          }
-        </div>
-      )
-
-      btnClass = classes.Red
-    }
-
-    const assignedClasses = []
-    if (this.state.persons.length <= 2) {
-      assignedClasses.push(classes.red) // classes = ['red']
-    }
-    if (this.state.persons.length <= 1) {
-      assignedClasses.push(classes.bold) // classes = ['red', 'bold']
+      persons = <Persons persons={this.state.persons} clicked={this.deletePersonHandler} changed={this.nameChangedHandler} />
     }
 
     return (
       <div className={classes.App}>
-        <h1>Hi, I'm a React App</h1>
-
-        <p className={assignedClasses.join(' ')}>This is really working!</p>
-        <button className={btnClass} onClick={this.togglePersonsHandler}>Toggle Persons</button>
-
-        {
-          this.state.showPersons === true ?
-            <div>
-              {persons}
-            </div>
-            : null
-        }
+        <CockPit showPersons={this.state.showPersons} persons={this.state.persons} toggle={this.togglePersonsHandler} />
+        {persons}
       </div>
     );
   }
