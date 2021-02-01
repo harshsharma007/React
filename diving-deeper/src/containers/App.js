@@ -54,9 +54,20 @@ class App extends Component {
       persons = <Persons persons={this.state.persons} clicked={this.deletePersonHandler} changed={this.nameChangedHandler} />
     }
 
+    /*
+      How to use this.props in App.js?
+      Thus far we only access the state here in the App.js, we access the state to pass our state to the
+      Cockpit component. The App.js file doesn't receive any props or the app component doesn't receive
+      any props but we can change this. In our index.js file, we can send a prop into our App component
+      simply by setting it there (check index.js). Now to use that prop in our App.js file, we need to
+      use this keyword to access that prop and you can use the keyword anywhere in your App.js file. But
+      I actually want to forward it to the Cockpit component.
+    */
+
     return (
       <div className={classes.App}>
-        <CockPit showPersons={this.state.showPersons} persons={this.state.persons} toggle={this.togglePersonsHandler} />
+        <CockPit title={this.props.appTitle} showPersons={this.state.showPersons}
+          persons={this.state.persons} toggle={this.togglePersonsHandler} />
         {persons}
       </div>
     );
