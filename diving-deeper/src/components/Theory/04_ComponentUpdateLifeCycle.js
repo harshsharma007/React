@@ -56,6 +56,8 @@ const componentUpdateLifeCycle = () => {
                 do do it as a result of some async task you're kicking off here but you should not call
                 it synchronously in componentDidUpdate because that will simply lead to an unnecessary
                 re-render cycle.
+
+                CHECK component-update-lifecycle FOR WORKING EXAMPLE.
             */}
         </p>
     )
