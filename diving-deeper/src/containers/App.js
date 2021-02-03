@@ -11,14 +11,80 @@ import CockPit from '../components/Cockpit/Cockpit';
 */
 
 class App extends Component {
-  state = {
-    persons: [
-      { id: 'abc', name: 'Max', age: 28 },
-      { id: 'bcd', name: 'Manu', age: 29 },
-      { id: 'cde', name: 'Stephanie', age: 26 }
-    ],
-    otherState: 'Some other value',
-    showPersons: false
+
+  // Constructor is the first thing that will be executed.
+  constructor(props) {
+    // Super will execute the constructor of the component you're extending.
+    super(props)
+    console.log('[App.js] constructor')
+
+    /*
+      We can also initialize the state in the constructor. If you are working in a project that does not
+      support below modern syntax of state initialization then set the state in the constructor it will
+      work fine.
+      
+      Important: Since you initialize the state, you should set the state like this.state not like
+      this.setState because there will be no state to merge this state with.
+    */
+    this.state = {
+      persons: [
+        { id: 'abc', name: 'Max', age: 28 },
+        { id: 'bcd', name: 'Manu', age: 29 },
+        { id: 'cde', name: 'Stephanie', age: 26 }
+      ],
+      otherState: 'Some other value',
+      showPersons: false
+    }
+  }
+
+  /*
+    We can also initialize the state like below. This is a more modern syntax which behind the scenes
+    adds the constructor for you, call super props and set the state up in the constructor.
+  */
+
+  // state = {
+  //   persons: [
+  //     { id: 'abc', name: 'Max', age: 28 },
+  //     { id: 'bcd', name: 'Manu', age: 29 },
+  //     { id: 'cde', name: 'Stephanie', age: 26 }
+  //   ],
+  //   otherState: 'Some other value',
+  //   showPersons: false
+  // }
+
+  /*
+    After constructor comes the getDerivedStateFromProps. This is a static method, so you have to add
+    static keyword in front of it so that React can execute it correctly. You will get props and state 
+    in here and you should return your updated state. Here we are just returning the same state.
+  */
+
+  static getDerivedStateFromProps(props, state) {
+    console.log('[App.js] getDerivedStateFromProps', props)
+    return state
+  }
+
+  /*
+    After rendering of render method, Persons component and CustomPerson component, componentDidMount
+    executes.
+
+    IT IS ALSO WORTH HIGHLIGHTING THAT HISTORICALLY, THERE WERE OTHER HOOKS AS WELL AND THESE ARE STILL
+    SUPPORTED. One of them was componentWillMount. These hooks were very rarely used and could be used
+    incorrectly and therefore will be removed in the future.
+  */
+
+  componentWillMount() {
+    /*
+      It would be called before componentDidMount() and it is hard to explain what kind of work you do
+      in here, generally it would be something like preparing your state correctly and that is something
+      you would now do in the getDerivedStateFromProps and both were actually relatively seldom to be
+      used and therefore componentWillMount will be removed and getDerivedStateFromProps is still here
+      but you'll actually not use that too often either.
+    */
+    console.log('[App.js] componentWillMount')
+  }
+
+  componentDidMount() {
+    console.log('[App.js] componentDidMount')
   }
 
   nameChangedHandler = (event, id) => {
@@ -47,7 +113,17 @@ class App extends Component {
     this.setState({ persons: persons });
   }
 
+  /*
+    After getDerivedStateFromProps, render method executes. Then all the child components will be
+    rendered. So all the Persons would be rendered and if that were class-based components, we
+    could add the lifecycle there too and see it run for all the Persons. Rather than converting
+    our Person to class-based component we will add a console log there because when the component
+    gets rendered, even though it's a functional one, the code also gets executed and therefore the
+    console log would be printed too.
+  */
+
   render() {
+    console.log('[App.js] render')
     let persons = null
 
     if (this.state.showPersons) {

@@ -36,10 +36,16 @@ import CustomPerson from './Person/CustomPerson';
     pieces where each component has a clear focus.
 */
 
-const persons = (props) => props.persons.map((person, index) => {
-    return <CustomPerson click={() => props.clicked(index)}
-        name={person.name} age={person.age} key={person.id}
-        changed={(event) => props.changed(event, person.id)} />
-})
+const persons = props => {
+    console.log('[Persons.js] rendering...')
+    return props.persons.map((person, index) => {
+        return (
+            <CustomPerson
+                click={() => props.clicked(index)}
+                name={person.name} age={person.age} key={person.id}
+                changed={(event) => props.changed(event, person.id)} />
+        )
+    })
+}
 
 export default persons;
