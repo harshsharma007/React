@@ -72,7 +72,7 @@ class App extends Component {
     incorrectly and therefore will be removed in the future.
   */
 
-  componentWillMount() {
+  // componentWillMount() {
     /*
       It would be called before componentDidMount() and it is hard to explain what kind of work you do
       in here, generally it would be something like preparing your state correctly and that is something
@@ -80,8 +80,8 @@ class App extends Component {
       used and therefore componentWillMount will be removed and getDerivedStateFromProps is still here
       but you'll actually not use that too often either.
     */
-    console.log('[App.js] componentWillMount')
-  }
+    // console.log('[App.js] componentWillMount')
+  // }
 
   componentDidMount() {
     console.log('[App.js] componentDidMount')
