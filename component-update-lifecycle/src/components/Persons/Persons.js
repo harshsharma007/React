@@ -61,6 +61,9 @@ class Persons extends Component {
         updating lifecycle will begin because we forwarded that event from a child to the parent
         component to the App component, there we updated its state and then we got new data as a prop
         into the Persons component and therefore Persons component lifecycle triggers as soon as we type.
+
+        The hook you'll use by far most often will be componentDidUpdate which is after the update is
+        finished.
     */
     componentDidUpdate(prevProps, prevState, snapshot) {
         console.log('[Persons.js] componentDidUpdate')
