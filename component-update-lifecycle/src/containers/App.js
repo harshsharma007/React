@@ -24,6 +24,7 @@ class App extends Component {
   }
 
   /*
+    Component Update Lifecycle (for props Changes)
     To look at the lifecycle hook for internal changes when the state changes. We are changing the state
     when people enter something into one of our person inputs and therefore in there, lets also add
     after componentDidMount, componentDidUpdate and you could also add the get snapshot before update
