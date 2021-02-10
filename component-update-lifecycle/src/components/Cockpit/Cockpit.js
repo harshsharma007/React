@@ -43,7 +43,62 @@ const cockpit = (props) => {
     useEffect(() => {
         console.log('[Cockpit.js] useEffect')
         // HTTP request...
-    })
+        setTimeout(() => {
+            alert('Saved data to cloud!')
+        }, 1000);
+    }, [props.persons])
+
+    /*
+        Controlling the useEffect() Behavior
+        useEffect can be tricky to use because right now it runs all the time, it combines
+        componentDidMount and componentDidUpdate.
+        
+            useEffect(() => {
+                console.log('[Cockpit.js] useEffect')
+            })
+        
+        What if we were to send an HTTP request here but we only want to do that when the component is
+        rendered for the first time and not for every re-render cycle, what would we do then?
+
+        To highlight this problem, let's add a setTimeout call here and add a timeout of one second and
+        after one second, the function will execute and I'm just doing this to fake an HTTP request.
+        It will throw an alert.
+
+            useEffect(() => {
+                console.log('[Cockpit.js] useEffect')
+                // HTTP request...
+                setTimeout(() => {
+                    alert('Saved data to cloud!')
+                }, 1000);
+            })
+        
+        The alert will be shown on every activity we will perform on the page like editing a field,
+        click on a toggle button, deleting a div and so on. How can I control when this executes? For
+        example, this should only execute because it is saving data to the cloud when our persons
+        changed but not on any other condition. For that you can add a second argument here to
+        useEffect, that second argument is an array where you simply point at all the varirables or all
+        the data that actually are used in your effect.
+
+        Right now, React is not smart enough to find out on its own and actually here it couldn't
+        because we're not using any data in here but if we know, we only want to run this code when our
+        persons changed, well then you simply add props.persons here. Now this effect should only
+        execute when our persons changed. So if I reload this, it runs initially and if I toggle my
+        persons now, there is no alert because persons didn't change. If we type something, we get it
+        again because that changes my persons. If I toggle persons, it does not come again because
+        that didn't change my persons.
+
+        What if we now only want to execute this when the component renders the first time?
+        For this, there is a little shortcut, you can pass an empty array. This tells React this effect
+        has no dependencies and it should rerun whenever one of the dependencies changes. If you have
+        no dependencies, they can never change and therefore this can never rerun, it will run for the
+        first time, that is the default but it will never run again. So now therefore, we get this
+        initially but thereafter we can do whatever we want and this does not come back.
+
+        So, if you just need componentDidMount, you would use useEffect with an empty array passed as a
+        second argument to the useEffect function. If you have a dependency on a certain field, you do
+        what we did before, you pass that field in here and of course you can add multiple fields
+        you will depend on.
+    */
 
     const assignedClasses = []
     let btnClass = ''
