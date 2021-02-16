@@ -23,7 +23,12 @@ class Persons extends Component {
     */
     shouldComponentUpdate(nextProps, nextState) {
         console.log('[Persons.js] shouldComponentUpdate')
-        return true;
+        if (nextProps.persons !== this.props.persons) {
+            return true
+        }
+        else {
+            return false;
+        }
     }
 
     /*
@@ -83,8 +88,12 @@ class Persons extends Component {
         It was hard to justify this hook, it was often used incorrectly and therefore this is also
         removed.
     */
-    componentWillReceiveProps(props) {
-        console.log('[Persons.js] componentWillReceiveProps', props)
+    // componentWillReceiveProps(props) {
+    //     console.log('[Persons.js] componentWillReceiveProps', props)
+    // }
+
+    componentWillUnmount() {
+        console.log('[Persons.js] componentWillUnmount')
     }
 
     /*
